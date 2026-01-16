@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+
+    <Properties>
+        <Property name="logdir">logs</Property>
+        <Property name="layout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5p %c{1} - %m%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${layout}"/>
+        </Console>
+
+        <RollingFile name="FILE"
+                     fileName="${logdir}/jewelry-app.log"
+                     filePattern="${logdir}/jewelry-app.%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${layout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.jewelry" level="debug" additivity="false">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="FILE"/>
+        </Logger>
+
+        <Logger name="freemarker" level="warn"/>
+
+        <Root level="info">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>
